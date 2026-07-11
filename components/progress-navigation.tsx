@@ -54,7 +54,7 @@ export default function ProgressNavigation({
             </div>
 
             {index < stages.length - 1 && (
-              <div className="mb-4 flex flex-1 items-center">
+              <div className="mb-6 flex flex-1 items-center">
                 <div
                   className={cn(
                     'h-1 w-full rounded-full transition-colors',
