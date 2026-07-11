@@ -16,6 +16,8 @@ import {
 } from 'lucide-react'
 import { motion } from 'motion/react'
 import { Lora } from 'next/font/google'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 const lora = Lora({
   subsets: ['latin'],
@@ -176,8 +178,6 @@ export default function Page() {
           </CardContent>
         </MotionCard>
 
-        {/* Evidence */}
-
         <MotionCard className="bg-primary/5">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -206,8 +206,6 @@ export default function Page() {
           </CardContent>
         </MotionCard>
 
-        {/* Counter evidence */}
-
         <MotionCard>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -226,8 +224,6 @@ export default function Page() {
             </p>
           </CardContent>
         </MotionCard>
-
-        {/* Blind spots + experiments */}
 
         <div className="grid gap-6 md:grid-cols-2">
           <MotionCard>
@@ -272,8 +268,6 @@ export default function Page() {
           </MotionCard>
         </div>
 
-        {/* Final takeaway */}
-
         <MotionCard className="bg-primary/5 border-primary/20 px-10 py-12 text-center">
           <Target className="text-primary mx-auto mb-6 size-8" />
 
@@ -296,10 +290,12 @@ export default function Page() {
           transition={{ delay: 0.5 }}
           className="flex justify-center"
         >
-          <button className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-xl px-6 py-3 font-medium transition-colors">
-            Reflect Again
-            <ArrowRight className="size-4" />
-          </button>
+          <Link href="/">
+            <Button size="lg">
+              Reflect Again
+              <ArrowRight className="size-4" />
+            </Button>
+          </Link>
         </motion.div>
       </div>
     </main>
