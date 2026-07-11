@@ -19,13 +19,36 @@ import { Lora } from 'next/font/google'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import type { SparkReport } from '@/types/report'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { SPARK_REPORT_STORAGE_KEY } from '@/constants/storage-keys'
 
 const lora = Lora({
   subsets: ['latin'],
 })
 
 export default function Page() {
-  const report: SparkReport = JSON.parse(localStorage.getItem('report')!)
+  const [report, setReport] = useState<SparkReport | null>(null)
+  const router = useRouter()
+
+  useEffect(() => {
+    const hydrate = () => {
+      const json = localStorage.getItem(SPARK_REPORT_STORAGE_KEY)
+
+      if (!json) {
+        router.replace('/')
+        return
+      }
+
+      setReport(JSON.parse(json))
+    }
+
+    hydrate()
+  }, [router])
+
+  if (!report) {
+    return null
+  }
 
   return (
     <main className="relative overflow-hidden">

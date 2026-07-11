@@ -23,6 +23,7 @@ import { generateReport } from '@/app/actions'
 import { useRouter } from 'next/navigation'
 import { Spinner } from './ui/spinner'
 import type { SparkForm } from '@/types/form'
+import { SPARK_REPORT_STORAGE_KEY } from '@/constants/storage-keys'
 
 export default function MultiPageForm() {
   const [currentStage, setCurrentStage] = useState(0)
@@ -79,7 +80,7 @@ export default function MultiPageForm() {
 
     try {
       const report = await generateReport(data)
-      localStorage.setItem('report', JSON.stringify(report))
+      localStorage.setItem(SPARK_REPORT_STORAGE_KEY, JSON.stringify(report))
       router.push('/report')
     } finally {
       setIsGenerating(false)
