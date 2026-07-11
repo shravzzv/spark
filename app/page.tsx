@@ -7,9 +7,9 @@ import { motion } from 'motion/react'
 export default function Page() {
   return (
     <main className="relative overflow-hidden">
-      <motion.div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <motion.div className="from-primary/20 absolute -top-200 left-1/2 h-[100rem] w-[100rem] -translate-x-1/2 rounded-full bg-radial to-transparent blur-3xl" />
-      </motion.div>
+      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <div className="from-primary/20 absolute -top-200 left-1/2 h-[100rem] w-[100rem] -translate-x-1/2 rounded-full bg-radial to-transparent blur-3xl" />
+      </div>
 
       <div className="mx-auto flex min-h-screen max-w-2xl flex-col items-center justify-center gap-8 px-6 text-center">
         <motion.div
