@@ -1,6 +1,6 @@
 'use client'
 
-import { MotionButton } from '@/components/motion'
+import MultiPageForm from '@/components/multi-page-form'
 import { Zap } from 'lucide-react'
 import { motion } from 'motion/react'
 
@@ -65,10 +65,7 @@ export default function Page() {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="space-y-2"
         >
-          <MotionButton size="lg">
-            <Zap />
-            Reveal My Spark
-          </MotionButton>
+          <MultiPageForm />
 
           <p className="text-muted-foreground text-xs">
             ≈ 5 minutes • No sign-up required
