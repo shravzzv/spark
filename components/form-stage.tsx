@@ -34,7 +34,7 @@ export default function FormStage({
   const form = useFormContext<SparkForm>()
 
   return (
-    <Card className="mx-auto max-w-2xl">
+    <Card className="mx-auto max-w-xl">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>

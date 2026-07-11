@@ -22,7 +22,6 @@ export default function ProgressNavigation({
     <div className="mx-auto flex w-full items-center">
       {stages.map((stage, index) => {
         const Icon = stage.icon
-
         const isCurrent = index === currentStage
         const isUnlocked = index <= furthestStage
 
