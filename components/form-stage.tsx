@@ -1,7 +1,6 @@
 'use client'
 
 import { Controller, useFormContext } from 'react-hook-form'
-import { SparkForm } from '@/schemas/spark'
 import {
   Card,
   CardContent,
@@ -19,6 +18,7 @@ import { Textarea } from '@/components/ui/textarea'
 import type { Question } from '@/types/questions'
 import { cn } from '@/lib/utils'
 import { MIN_ANSWER_LENGTH } from '@/constants/answers'
+import { SparkForm } from '@/types/form'
 
 interface FormStageProps {
   title: string
