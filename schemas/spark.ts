@@ -1,10 +1,19 @@
 import * as z from 'zod'
 
+export const MIN_ANSWER_LENGTH = 30
+export const MAX_ANSWER_LENGTH = 1000
+
 const answer = z
   .string()
   .trim()
-  .min(30, 'Please write a little more.')
-  .max(1000, 'Please keep your answer under 1000 characters.')
+  .min(
+    MIN_ANSWER_LENGTH,
+    `Please write at least ${MIN_ANSWER_LENGTH} characters.`
+  )
+  .max(
+    MAX_ANSWER_LENGTH,
+    `Please keep your answer under ${MAX_ANSWER_LENGTH} characters.`
+  )
 
 export const formSchema = z.object({
   time: z.object({

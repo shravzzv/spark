@@ -48,6 +48,7 @@ export default function MultiPageForm() {
         desiredImpact: '',
       },
     },
+    mode: 'onSubmit',
   })
 
   async function goToNextStage() {

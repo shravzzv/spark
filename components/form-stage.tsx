@@ -1,7 +1,7 @@
 'use client'
 
 import { Controller, useFormContext } from 'react-hook-form'
-import { SparkForm } from '@/schemas/spark'
+import { MIN_ANSWER_LENGTH, SparkForm } from '@/schemas/spark'
 import {
   Card,
   CardContent,
@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/field'
 import { Textarea } from '@/components/ui/textarea'
 import type { Question } from '@/types/questions'
+import { cn } from '@/lib/utils'
 
 interface FormStageProps {
   title: string
@@ -45,25 +46,44 @@ export default function FormStage({
               key={question.name}
               name={question.name}
               control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor={question.name}>
-                    {question.title}
-                  </FieldLabel>
+              render={({ field, fieldState }) => {
+                const length = field.value.length
 
-                  <Textarea
-                    {...field}
-                    id={question.name}
-                    placeholder={question.description}
-                    className="min-h-32"
-                    aria-invalid={fieldState.invalid}
-                  />
+                return (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={question.name}>
+                      {question.title}
+                    </FieldLabel>
 
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
+                    <Textarea
+                      {...field}
+                      id={question.name}
+                      placeholder={question.description}
+                      className="min-h-32"
+                      aria-invalid={fieldState.invalid}
+                    />
+
+                    <div className="mt-1 flex min-h-5 items-start justify-between gap-4">
+                      <div className="min-w-0">
+                        {fieldState.invalid && (
+                          <FieldError errors={[fieldState.error]} />
+                        )}
+                      </div>
+
+                      <span
+                        className={cn(
+                          'shrink-0 text-xs tabular-nums transition-colors',
+                          length >= MIN_ANSWER_LENGTH
+                            ? 'text-green-600 dark:text-green-400'
+                            : 'text-muted-foreground'
+                        )}
+                      >
+                        {length} / {MIN_ANSWER_LENGTH}
+                      </span>
+                    </div>
+                  </Field>
+                )
+              }}
             />
           ))}
         </FieldGroup>
