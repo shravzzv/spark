@@ -1,16 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import {
-  ArrowLeft,
-  ArrowRight,
-  Brain,
-  Clock12,
-  HandCoins,
-  X,
-  Zap,
-} from 'lucide-react'
-import type { Stage } from '@/types/form'
+import { ArrowLeft, ArrowRight, X, Zap } from 'lucide-react'
 import ProgressNavigation from './progress-navigation'
 import { Button } from './ui/button'
 import {
@@ -23,13 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-
-const stages: Stage[] = [
-  { id: 'time', label: 'Time', icon: Clock12 },
-  { id: 'energy', label: 'Energy', icon: Zap },
-  { id: 'curiosity', label: 'Curiosity', icon: Brain },
-  { id: 'purpose', label: 'Purpose', icon: HandCoins },
-]
+import { stages } from '@/constants/stages'
 
 export default function MultiPageForm() {
   const [currentStage, setCurrentStage] = useState(0)
@@ -67,11 +52,10 @@ export default function MultiPageForm() {
           onStageChange={setCurrentStage}
         />
 
-        <section className="flex-1 overflow-y-auto rounded-lg border p-6">
-          <h2 className="text-2xl font-bold">{stages[currentStage].label}</h2>
-          <p className="text-muted-foreground mt-2">
-            Form content for this stage goes here.
-          </p>
+        <section className="flex-1 overflow-y-auto rounded-2xl border p-6">
+          <h2 className="text-xl font-bold md:text-2xl">
+            {stages[currentStage].label}
+          </h2>
         </section>
 
         <DialogFooter className="">

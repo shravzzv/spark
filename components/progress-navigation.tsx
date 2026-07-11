@@ -2,7 +2,7 @@
 
 import { Fragment } from 'react'
 import { cn } from '@/lib/utils'
-import type { Stage } from '@/types/form'
+import type { Stage } from '@/types/stages'
 import { Button } from './ui/button'
 
 interface ProgressNavigationProps {
