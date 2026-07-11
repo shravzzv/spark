@@ -28,7 +28,6 @@ export default function MultiPageForm() {
   const [currentStage, setCurrentStage] = useState(0)
   const [furthestStage, setFurthestStage] = useState(0)
   const [isGenerating, setIsGenerating] = useState(false)
-
   const router = useRouter()
 
   const stage = stages[currentStage]
@@ -80,7 +79,7 @@ export default function MultiPageForm() {
 
     try {
       const report = await generateReport(data)
-      console.log(report)
+      localStorage.setItem('report', JSON.stringify(report))
       router.push('/report')
     } finally {
       setIsGenerating(false)

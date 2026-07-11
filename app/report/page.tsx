@@ -18,94 +18,15 @@ import { motion } from 'motion/react'
 import { Lora } from 'next/font/google'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import type { SparkReport } from '@/types/report'
 
 const lora = Lora({
   subsets: ['latin'],
 })
 
-const report = {
-  sparkTitle: 'Entrepreneurial Creator',
-  confidence: 89,
-
-  summary:
-    'You consistently gain energy from building systems, solving meaningful problems, and creating things that compound over time. Across your reflections, one pattern emerged above all others: you repeatedly choose creation over consumption.',
-
-  dna: [
-    {
-      title: 'Autonomy',
-      score: 92,
-      description: 'You naturally prefer choosing your own direction.',
-    },
-    {
-      title: 'Mastery',
-      score: 86,
-      description: 'You enjoy becoming exceptionally good at difficult work.',
-    },
-    {
-      title: 'Curiosity',
-      score: 80,
-      description: 'Learning itself appears intrinsically rewarding.',
-    },
-    {
-      title: 'Impact',
-      score: 73,
-      description: 'You want your work to matter to other people.',
-    },
-  ],
-
-  evidence: [
-    {
-      title: 'You repeatedly chose building.',
-      why: 'Across multiple answers you voluntarily returned to creating projects, even without external pressure.',
-    },
-    {
-      title: 'You lose track of time while creating.',
-      why: 'Flow states appeared most often during difficult but meaningful work.',
-    },
-    {
-      title: 'Learning energizes you.',
-      why: 'You consistently described curiosity as enjoyable rather than obligatory.',
-    },
-    {
-      title: 'Autonomy matters.',
-      why: 'You repeatedly preferred directing your own work instead of following predefined paths.',
-    },
-  ],
-
-  counterEvidence: {
-    title: 'Teaching',
-
-    explanation:
-      'Teaching appeared repeatedly, but mostly as a consequence of your curiosity rather than as your primary source of motivation.',
-  },
-
-  blindSpots: [
-    'You may optimize systems long after they are good enough.',
-    'You can underestimate the importance of recovery.',
-    'Interesting ideas may compete for your attention.',
-  ],
-
-  experiments: [
-    {
-      title: '30-minute experiment',
-      description: 'Build something tiny purely because it sounds interesting.',
-    },
-    {
-      title: 'Weekend experiment',
-      description: 'Ship a complete mini project in under two days.',
-    },
-    {
-      title: '30-day experiment',
-      description:
-        'Write down one moment each day that noticeably increased your energy.',
-    },
-  ],
-
-  conclusion:
-    "Don't treat this report as a final answer. Treat it as a strong hypothesis. If your future experiences continue pointing in this direction, don't spend years searching for passion—spend those years building.",
-}
-
 export default function Page() {
+  const report: SparkReport = JSON.parse(localStorage.getItem('report')!)
+
   return (
     <main className="relative overflow-hidden">
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">

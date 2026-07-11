@@ -8,7 +8,7 @@ import type { SparkForm } from '@/types/form'
 export const generateReport = async (data: SparkForm) => {
   try {
     const interaction = await gemini.interactions.create({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3.5-flash',
       system_instruction: prompt,
       input: `${JSON.stringify(data, null, 2)}`,
 
