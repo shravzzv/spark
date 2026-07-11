@@ -1,30 +1,81 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
+import { MotionButton } from '@/components/motion'
 import { Zap } from 'lucide-react'
+import { motion } from 'motion/react'
 
 export default function Page() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-10 px-6 text-center">
-      <h1 className="text-6xl font-bold tracking-tight">Spark</h1>
+    <main className="relative overflow-hidden">
+      <div className="bg-primary/10 absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,hsl(var(--primary)/0.15),transparent_55%)]" />
 
-      <p className="text-3xl font-semibold">
-        Passion isn&apos;t a lightning bolt. It&apos;s a pattern.
-      </p>
+      <div className="mx-auto flex min-h-screen max-w-2xl flex-col items-center justify-center gap-8 px-6 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-primary/10 flex h-16 w-16 items-center justify-center rounded-2xl"
+        >
+          <Zap className="text-primary size-8" />
+        </motion.div>
 
-      <p className="text-muted-foreground max-w-xl text-lg leading-relaxed">
-        Notice what consistently gives you energy through guided reflection and
-        AI-powered pattern recognition.
-      </p>
+        <motion.h1
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.08 }}
+          className="text-5xl font-bold tracking-tight md:text-7xl"
+        >
+          Spark
+        </motion.h1>
 
-      <div className="space-y-2">
-        <Button>
-          <Zap /> Revel my spark
-        </Button>
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.16 }}
+          className="text-2xl font-semibold md:text-4xl"
+        >
+          Passion isn&apos;t a lightning bolt. It&apos;s a pattern.
+        </motion.p>
 
-        <p className="text-muted-foreground text-xs">
-          ≈ 5 minutes • No sign-up required
-        </p>
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.24 }}
+          className="text-muted-foreground max-w-xl text-lg leading-relaxed"
+        >
+          We spend years asking what we&apos;re passionate about. The answer is
+          often already hidden in the moments that make us feel most alive.
+        </motion.p>
+
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.32 }}
+          className="text-muted-foreground max-w-xl leading-relaxed"
+        >
+          Spark helps you uncover those patterns through guided reflection and
+          AI-powered analysis.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="space-y-2"
+        >
+          <MotionButton
+            size="lg"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <Zap />
+            Reveal My Spark
+          </MotionButton>
+
+          <p className="text-muted-foreground text-xs">
+            ≈ 5 minutes • No sign-up required
+          </p>
+        </motion.div>
       </div>
     </main>
   )
