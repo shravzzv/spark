@@ -7,7 +7,9 @@ import { motion } from 'motion/react'
 export default function Page() {
   return (
     <main className="relative overflow-hidden">
-      <div className="bg-primary/10 absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,hsl(var(--primary)/0.15),transparent_55%)]" />
+      <motion.div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <motion.div className="from-primary/20 absolute -top-200 left-1/2 h-[100rem] w-[100rem] -translate-x-1/2 rounded-full bg-radial to-transparent blur-3xl" />
+      </motion.div>
 
       <div className="mx-auto flex min-h-screen max-w-2xl flex-col items-center justify-center gap-8 px-6 text-center">
         <motion.div
@@ -63,11 +65,7 @@ export default function Page() {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="space-y-2"
         >
-          <MotionButton
-            size="lg"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
-          >
+          <MotionButton size="lg">
             <Zap />
             Reveal My Spark
           </MotionButton>
