@@ -137,4 +137,8 @@
   [role='button']:not(:disabled) {
     cursor: pointer;
   }
+  ::selection {
+    background-color: oklch(0.555 0.163 48.998);
+    color: white;
+  }
 }
