@@ -12,7 +12,7 @@ export const stages = [
     id: 'time',
     label: 'Time',
     icon: Clock12,
-    title: 'Moments',
+    title: 'Time',
     description:
       "Think about the last few months. We're looking for recurring patterns, not perfect answers.",
     questions: timeQuestions,
