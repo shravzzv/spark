@@ -1,7 +1,5 @@
+import { MAX_ANSWER_LENGTH, MIN_ANSWER_LENGTH } from '@/constants/answers'
 import * as z from 'zod'
-
-export const MIN_ANSWER_LENGTH = 30
-export const MAX_ANSWER_LENGTH = 1000
 
 const answer = z
   .string()

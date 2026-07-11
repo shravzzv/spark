@@ -16,16 +16,19 @@ import {
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import ProgressNavigation from './progress-navigation'
+import FormStage from './form-stage'
 import { stages } from '@/constants/stages'
 import { formSchema, SparkForm } from '@/schemas/spark'
-import FormStage from './form-stage'
 
 export default function MultiPageForm() {
   const [currentStage, setCurrentStage] = useState(0)
+  const [furthestStage, setFurthestStage] = useState(0)
+
   const stage = stages[currentStage]
 
   const form = useForm<SparkForm>({
     resolver: zodResolver(formSchema),
+    mode: 'onSubmit',
     defaultValues: {
       time: {
         recentActivities: '',
@@ -48,31 +51,29 @@ export default function MultiPageForm() {
         desiredImpact: '',
       },
     },
-    mode: 'onSubmit',
   })
 
-  async function goToNextStage() {
-    const valid = await form.trigger([
-      'time.recentActivities',
-      'time.freeDay',
-      'time.returnTo',
-    ])
-
+  const goToNextStage = async () => {
+    const valid = await form.trigger(
+      stage.questions.map((question) => question.name)
+    )
     if (!valid) return
 
-    setCurrentStage((stage) => Math.min(stage + 1, stages.length - 1))
+    const nextStage = Math.min(currentStage + 1, stages.length - 1)
+    setCurrentStage(nextStage)
+    setFurthestStage((prev) => Math.max(prev, nextStage))
   }
 
-  function goToPreviousStage() {
-    setCurrentStage((stage) => Math.max(stage - 1, 0))
+  const goToPreviousStage = () => {
+    setCurrentStage((prev) => Math.max(prev - 1, 0))
   }
 
   function onSubmit(data: SparkForm) {
     console.log(data)
 
     // TODO:
-    // call Gemini
-    // navigate to /report
+    // Call Gemini
+    // Navigate to /report
   }
 
   return (
@@ -98,6 +99,7 @@ export default function MultiPageForm() {
           <ProgressNavigation
             stages={stages}
             currentStage={currentStage}
+            furthestStage={furthestStage}
             onStageChange={setCurrentStage}
           />
 

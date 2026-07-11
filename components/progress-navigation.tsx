@@ -8,29 +8,31 @@ import { Button } from './ui/button'
 interface ProgressNavigationProps {
   stages: readonly Stage[]
   currentStage: number
+  furthestStage: number
   onStageChange: (stage: number) => void
 }
 
 export default function ProgressNavigation({
   stages,
   currentStage,
+  furthestStage,
   onStageChange,
 }: ProgressNavigationProps) {
   return (
     <div className="mx-auto flex w-full items-center">
       {stages.map((stage, index) => {
         const Icon = stage.icon
-        const isFuture = index > currentStage
-        const isCompleted = index < currentStage
+
         const isCurrent = index === currentStage
+        const isUnlocked = index <= furthestStage
 
         return (
           <Fragment key={stage.id}>
             <div className="flex flex-1 flex-col items-center gap-2">
               <Button
                 size="icon"
-                variant={isCompleted || isCurrent ? 'default' : 'outline'}
-                disabled={isFuture}
+                variant={isUnlocked ? 'default' : 'outline'}
+                disabled={!isUnlocked}
                 onClick={() => onStageChange(index)}
                 className={cn(
                   'rounded-full transition-all',
@@ -58,7 +60,7 @@ export default function ProgressNavigation({
                 <div
                   className={cn(
                     'h-1 w-full rounded-full transition-colors',
-                    isCompleted ? 'bg-primary' : 'bg-muted'
+                    index < furthestStage ? 'bg-primary' : 'bg-muted'
                   )}
                 />
               </div>

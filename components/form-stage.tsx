@@ -1,7 +1,7 @@
 'use client'
 
 import { Controller, useFormContext } from 'react-hook-form'
-import { MIN_ANSWER_LENGTH, SparkForm } from '@/schemas/spark'
+import { SparkForm } from '@/schemas/spark'
 import {
   Card,
   CardContent,
@@ -18,6 +18,7 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import type { Question } from '@/types/questions'
 import { cn } from '@/lib/utils'
+import { MIN_ANSWER_LENGTH } from '@/constants/answers'
 
 interface FormStageProps {
   title: string
@@ -73,9 +74,12 @@ export default function FormStage({
                       <span
                         className={cn(
                           'shrink-0 text-xs tabular-nums transition-colors',
-                          length >= MIN_ANSWER_LENGTH
-                            ? 'text-green-600 dark:text-green-400'
-                            : 'text-muted-foreground'
+                          length === 0 && 'text-muted-foreground',
+                          length > 0 &&
+                            length < MIN_ANSWER_LENGTH &&
+                            'text-amber-600 dark:text-amber-400',
+                          length >= MIN_ANSWER_LENGTH &&
+                            'text-green-600 dark:text-green-400'
                         )}
                       >
                         {length} / {MIN_ANSWER_LENGTH}
