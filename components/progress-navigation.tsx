@@ -2,11 +2,11 @@
 
 import { Fragment } from 'react'
 import { cn } from '@/lib/utils'
-import type { Stage } from '@/types/stages'
+import type { Stage } from '@/types/stage'
 import { Button } from './ui/button'
 
 interface ProgressNavigationProps {
-  stages: Stage[]
+  stages: readonly Stage[]
   currentStage: number
   onStageChange: (stage: number) => void
 }

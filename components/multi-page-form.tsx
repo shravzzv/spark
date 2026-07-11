@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowLeft, ArrowRight, X, Zap } from 'lucide-react'
-import ProgressNavigation from './progress-navigation'
-import { Button } from './ui/button'
 import {
   Dialog,
   DialogClose,
@@ -14,17 +14,64 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
+import ProgressNavigation from './progress-navigation'
 import { stages } from '@/constants/stages'
+import { formSchema, SparkForm } from '@/schemas/spark'
+import FormStage from './form-stage'
 
 export default function MultiPageForm() {
   const [currentStage, setCurrentStage] = useState(0)
+  const stage = stages[currentStage]
 
-  const goToNextStage = () => {
-    setCurrentStage((prev) => Math.min(prev + 1, stages.length - 1))
+  const form = useForm<SparkForm>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      time: {
+        recentActivities: '',
+        freeDay: '',
+        returnTo: '',
+      },
+      energy: {
+        energized: '',
+        drained: '',
+        flow: '',
+      },
+      curiosity: {
+        rabbitHoles: '',
+        favoriteProblems: '',
+        endlessConversation: '',
+      },
+      purpose: {
+        moneyNoObject: '',
+        helpingOthers: '',
+        desiredImpact: '',
+      },
+    },
+  })
+
+  async function goToNextStage() {
+    const valid = await form.trigger([
+      'time.recentActivities',
+      'time.freeDay',
+      'time.returnTo',
+    ])
+
+    if (!valid) return
+
+    setCurrentStage((stage) => Math.min(stage + 1, stages.length - 1))
   }
 
-  const goToPreviousStage = () => {
-    setCurrentStage((prev) => Math.max(prev - 1, 0))
+  function goToPreviousStage() {
+    setCurrentStage((stage) => Math.max(stage - 1, 0))
+  }
+
+  function onSubmit(data: SparkForm) {
+    console.log(data)
+
+    // TODO:
+    // call Gemini
+    // navigate to /report
   }
 
   return (
@@ -38,48 +85,57 @@ export default function MultiPageForm() {
 
       <DialogContent className="flex h-dvh w-screen max-w-none flex-col rounded-none p-6 sm:h-[90dvh] sm:w-[90vw] sm:max-w-6xl sm:rounded-2xl sm:p-8">
         <DialogHeader>
-          <DialogTitle>Find your spark</DialogTitle>
+          <DialogTitle>Find your Spark</DialogTitle>
+
           <DialogDescription>
             This isn&apos;t a personality test. There are no right answers.
-            Simply answer honestly based on your recent experiences. This takes
-            about 5 minutes.
+            Answer honestly based on your recent experiences.
           </DialogDescription>
         </DialogHeader>
 
-        <ProgressNavigation
-          stages={stages}
-          currentStage={currentStage}
-          onStageChange={setCurrentStage}
-        />
+        <FormProvider {...form}>
+          <ProgressNavigation
+            stages={stages}
+            currentStage={currentStage}
+            onStageChange={setCurrentStage}
+          />
 
-        <section className="flex-1 overflow-y-auto rounded-2xl border p-6">
-          <h2 className="text-xl font-bold md:text-2xl">
-            {stages[currentStage].label}
-          </h2>
-        </section>
+          <section className="flex-1 overflow-y-auto p-2">
+            <FormStage
+              title={stage.title}
+              description={stage.description}
+              questions={stage.questions}
+            />
+          </section>
 
-        <DialogFooter className="">
-          {currentStage === 0 && (
-            <DialogClose asChild>
-              <Button variant="outline">
-                <X />
-                Close
+          <DialogFooter>
+            {currentStage === 0 ? (
+              <DialogClose asChild>
+                <Button variant="outline">
+                  <X />
+                  Close
+                </Button>
+              </DialogClose>
+            ) : (
+              <Button variant="outline" onClick={goToPreviousStage}>
+                <ArrowLeft />
+                Back
               </Button>
-            </DialogClose>
-          )}
+            )}
 
-          {currentStage > 0 && (
-            <Button variant="outline" onClick={goToPreviousStage}>
-              <ArrowLeft />
-              Back
-            </Button>
-          )}
-
-          <Button onClick={goToNextStage}>
-            {currentStage === stages.length - 1 ? <Zap /> : <ArrowRight />}
-            {currentStage === stages.length - 1 ? 'Reveal My Spark' : 'Next'}
-          </Button>
-        </DialogFooter>
+            {currentStage === stages.length - 1 ? (
+              <Button onClick={form.handleSubmit(onSubmit)}>
+                <Zap />
+                Reveal My Spark
+              </Button>
+            ) : (
+              <Button onClick={goToNextStage}>
+                <ArrowRight />
+                Next
+              </Button>
+            )}
+          </DialogFooter>
+        </FormProvider>
       </DialogContent>
     </Dialog>
   )
