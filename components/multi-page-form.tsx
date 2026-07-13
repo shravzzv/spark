@@ -24,6 +24,7 @@ import { useRouter } from 'next/navigation'
 import { Spinner } from './ui/spinner'
 import type { SparkForm } from '@/types/form'
 import { SPARK_REPORT_STORAGE_KEY } from '@/constants/storage-keys'
+import { toast } from 'sonner'
 
 export default function MultiPageForm() {
   const [currentStage, setCurrentStage] = useState(0)
@@ -82,6 +83,12 @@ export default function MultiPageForm() {
       const report = await generateReport(data)
       localStorage.setItem(SPARK_REPORT_STORAGE_KEY, JSON.stringify(report))
       router.push('/report')
+    } catch (error) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : 'Something went wrong while generating your Spark report.'
+      )
     } finally {
       setIsGenerating(false)
     }
