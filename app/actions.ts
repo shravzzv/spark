@@ -2,15 +2,27 @@
 
 import { gemini } from '@/gemini/client'
 import { prompt } from '@/gemini/prompt'
+import { buildInterview } from '@/lib/interview'
 import { reportJsonSchema, reportSchema } from '@/schemas/report'
 import type { SparkForm } from '@/types/form'
 
+/**
+ * Generates a personalized Spark report from the user's questionnaire.
+ *
+ * The questionnaire is transformed into an interview transcript and sent to
+ * Gemini, which returns a structured JSON report. The response is validated
+ * against the report schema before being returned.
+ *
+ * @param data The completed Spark questionnaire.
+ * @returns A validated Spark report.
+ * @throws If Gemini fails to generate a report or returns invalid data.
+ */
 export const generateReport = async (data: SparkForm) => {
   try {
     const interaction = await gemini.interactions.create({
       model: 'gemini-3.5-flash',
       system_instruction: prompt,
-      input: `${JSON.stringify(data, null, 2)}`,
+      input: buildInterview(data),
 
       response_format: {
         type: 'text',
