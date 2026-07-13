@@ -38,5 +38,3 @@ export const formSchema = z.object({
     desiredImpact: answer,
   }),
 })
-
-export type SparkForm = z.infer<typeof formSchema>

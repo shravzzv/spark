@@ -4,6 +4,7 @@ import './globals.css'
 import { cn } from '@/lib/utils'
 import { ThemeProvider } from '@/providers/theme-provider'
 import { Analytics } from '@vercel/analytics/next'
+import { Toaster } from '@/components/ui/sonner'
 
 const APP_NAME = 'Spark'
 const APP_DEFAULT_TITLE = 'Spark'
@@ -80,6 +81,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <Toaster richColors />
         </ThemeProvider>
         <Analytics />
       </body>

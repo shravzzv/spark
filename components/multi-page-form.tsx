@@ -18,11 +18,19 @@ import { Button } from '@/components/ui/button'
 import ProgressNavigation from './progress-navigation'
 import FormStage from './form-stage'
 import { stages } from '@/constants/stages'
-import { formSchema, SparkForm } from '@/schemas/spark'
+import { formSchema } from '@/schemas/spark'
+import { generateReport } from '@/app/actions'
+import { useRouter } from 'next/navigation'
+import { Spinner } from './ui/spinner'
+import type { SparkForm } from '@/types/form'
+import { SPARK_REPORT_STORAGE_KEY } from '@/constants/storage-keys'
+import { toast } from 'sonner'
 
 export default function MultiPageForm() {
   const [currentStage, setCurrentStage] = useState(0)
   const [furthestStage, setFurthestStage] = useState(0)
+  const [isGenerating, setIsGenerating] = useState(false)
+  const router = useRouter()
 
   const stage = stages[currentStage]
 
@@ -68,12 +76,22 @@ export default function MultiPageForm() {
     setCurrentStage((prev) => Math.max(prev - 1, 0))
   }
 
-  function onSubmit(data: SparkForm) {
-    console.log(data)
+  const onSubmit = async (data: SparkForm) => {
+    setIsGenerating(true)
 
-    // TODO:
-    // Call Gemini
-    // Navigate to /report
+    try {
+      const report = await generateReport(data)
+      localStorage.setItem(SPARK_REPORT_STORAGE_KEY, JSON.stringify(report))
+      router.push('/report')
+    } catch (error) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : 'Something went wrong while generating your Spark report.'
+      )
+    } finally {
+      setIsGenerating(false)
+    }
   }
 
   return (
@@ -127,9 +145,12 @@ export default function MultiPageForm() {
             )}
 
             {currentStage === stages.length - 1 ? (
-              <Button onClick={form.handleSubmit(onSubmit)}>
-                <Zap />
-                Reveal My Spark
+              <Button
+                disabled={isGenerating}
+                onClick={form.handleSubmit(onSubmit)}
+              >
+                {isGenerating ? <Spinner /> : <Zap />}
+                {isGenerating ? 'Analyzing…' : 'Reveal My Spark'}
               </Button>
             ) : (
               <Button onClick={goToNextStage}>
